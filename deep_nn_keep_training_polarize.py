@@ -7,15 +7,14 @@ from operator import concat
 import copy
 import random
 
-
 def init_weights(shape, i):
 	weights_name = 'W'
-	weights_name += `i`
+	weights_name += str(i)
 	return tf.Variable(tf.random_uniform(shape, -1, 1), name = weights_name)
 
 def init_bias(size, i):
 	bias_name = 'B'
-	bias_name += `i`
+	bias_name += str(i)
 	return tf.Variable(tf.random_uniform([size], -1, 1), name = bias_name)
 
 def one_hot_code(hypothesis):
@@ -444,7 +443,7 @@ def keep_training_wsp_polarize(data, bet, model_name, new_model_name, hidden_nod
 		# While there are still possible indexes to prune
 		while pos_ind:
 			# Sort possible indexes in order of increasing pruned connections
-			pos_ind.sort(key=lambda(m, i, j):row_count[(m, i)] + col_count[(m, j)])
+			pos_ind.sort(key=lambda m, i, j:row_count[(m, i)] + col_count[(m, j)])
 			#sorted_poss_ind = sorted(pos_ind, key=lambda(m, i, j):row_count[(m, i)] + col_count[(m, j)])
 			non_found = True
 			for i in range(len(pos_ind)):

@@ -13,10 +13,11 @@ import math
 import os
 import numpy as np
 
-dataset_name = 'Y4'
-split_name = '70'
 
-hidden_nodes= [3,4,2]
+dataset_name = 'titanicNumeric' 
+split_name = '35'
+
+hidden_nodes= [6,8,2,2]
 model_name = 'nn'
 
 # Determine one or more splits of train and test data. Note that
@@ -52,7 +53,7 @@ def set_split(dataset_name, split_name, percentage):
 def set_cv_folds(dataset_name, k):
 	'''
 	Split data into different folds. The resulting split names have the 
-	form cv_<k>-<i>, where i is the current fols used for testing.
+	form cv_<k>-<i>, where i is the current folds used for testing.
 	
 	param dataset_name: name of dataset without .csv
 	param k: number of folds
@@ -67,11 +68,11 @@ def set_cv_folds(dataset_name, k):
 # activation functions can be used, but this can be easily adapted.
 #
 # Retrain to perform activation polarization with ktp.retrain_network, or
-# folow this with WSP with ktp.keep_training_wsp_polarize. Currently, this
+# follow this with WSP with ktp.keep_training_wsp_polarize. Currently, this
 # only works with the hyperbolic tangent activationfunction
 
 def prepare_network(dataset_name, split_name, model_name, hidden_nodes, 
-		init_iterations = 10000, wsp_iterations=100, wsp_accuracy_decrease=0.02, 
+		init_iterations = 1000, wsp_iterations=100, wsp_accuracy_decrease=0.02, 
 		rxren_accuracy_decrease=5, function = 'tanh', softmax=True):
 	'''
 	param dataset_name: name of dataset without .csv
@@ -86,10 +87,11 @@ def prepare_network(dataset_name, split_name, model_name, hidden_nodes,
 	param function: activation function, 'tanh' or 'sigmoid'
 	param softmax: softmax layer at the end?
 	'''
+	set_split(dataset_name,split_name,50)  #ADDED to set train and test indixes
 	train, test = lr.load_indexes(dataset_name, split_name)
 	data = DataSet(dataset_name, hidden_nodes)
 	data.set_split(train, [], test)
-	#dnnt.train_network(data, model_name, hidden_nodes, iterations=init_iterations, function=function, softmax=softmax)
+	dnnt.train_network(data, model_name, hidden_nodes, iterations=init_iterations, function=function, softmax=softmax)
 	#dnnt.execute_network(data, model_name, hidden_nodes, function=function, softmax=softmax)
 	
 	#dnnt.weight_sparseness_pruning(data, model_name, model_name, hidden_nodes, iterations=wsp_iterations, function=function, softmax=softmax, accuracy_decrease=wsp_accuracy_decrease)
@@ -161,6 +163,7 @@ def extract_model(dataset_name, split_name, model_name, hidden_nodes,
 		lr.save_BNN_ecd_indexes(BNN, data.example_cond_dict, data.dict_indexes, dataset_name + '_' + split_name)
 		print('\nBuilt BNN')
 		print('Time: ', time.time() - t)
+		print(BNN)
 
 	# Extract an expression of an output condition w.r.t the inputs
 	if os.path.exists('obj/bio_' + dataset_name + '_' + split_name + '.pkl'):
@@ -172,9 +175,15 @@ def extract_model(dataset_name, split_name, model_name, hidden_nodes,
 		lr.save_bio(bio, dataset_name + '_' + split_name)
 		print('\nBuilt bio')
 		print('Time: ', time.time() - t)
+	
+	
+
 	if isinstance(bio, list):
 		print('Number rules:',len(bio))
 		print('Number terms:',sum(len(r) for r in bio))	
+	
+	
+
 	print('Fidelity:', ef.accuracy_of_dnf(data, output_condition, bio, True, False, False, True))
 	print('Accuracy:', ef.class_accuracy(data, bio, target_class_index, True, False, False, True))
 
@@ -191,5 +200,10 @@ def extract_model(dataset_name, split_name, model_name, hidden_nodes,
 		print('Printed symbol dictionary')
 		print('Finished')
 
+
+prepare_network(dataset_name, split_name, model_name, hidden_nodes, 
+		init_iterations =15, wsp_iterations=2, wsp_accuracy_decrease=0.02, 
+		rxren_accuracy_decrease=5, function = 'tanh', softmax=True)
+		
 extract_model(dataset_name, split_name, model_name, hidden_nodes, 1)
 

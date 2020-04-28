@@ -99,7 +99,7 @@ def get_dnfs(cond_layer, tree):
 	dnf[1] = []   
 	def return_rules(cond_layer, tree, conditions):
 		if tree.results!=None:
-			tree_class = max(tree.results.iteritems(), key=operator.itemgetter(1))[0]
+			tree_class = max(tree.results.items(), key=operator.itemgetter(1))[0] #ADDED iteritems -> items in Python3
 			simplified_rule = s.delete_redundant_terms(conditions)
 			if simplified_rule:
 				simplified_rule.sort()
