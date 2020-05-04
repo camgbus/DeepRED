@@ -9,6 +9,7 @@ from operator import concat
 import copy
 import random
 from past.builtins import xrange
+import functools
 
 #tf.disable_v2_behavior()
 tf.compat.v1.disable_eager_execution()
@@ -395,7 +396,7 @@ def weight_sparseness_pruning(data, model_name, new_model_name, hidden_nodes, it
 		the indexes to prune
 		rtype: list of (int, int, int) tuples
 		'''
-		return reduce(concat, [[(h, i, j) for (i, j) in 
+		return functools.reduce(concat, [[(h, i, j) for (i, j) in 
 		list(itertools.product(range(shapes[h][0]), range(shapes[h][1]))) 
 		if (i, j) not in indexes[h]] for h in to_prune])
 
@@ -492,7 +493,7 @@ def weight_sparseness_pruning(data, model_name, new_model_name, hidden_nodes, it
 		A_vali[layers-1] = tf.nn.softmax(tf.matmul(A_vali[layers-2], masks[layers-1]*W[layers-1]) + B[layers-1])
 		Hypothesis_train = A_train[layers-1]
 		Hypothesis_vali = A_vali[layers-1]
-		loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits, Y_train))
+		loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits_v2(logits, Y_train))
 	else:
 		if function == 'tanh':
 			A_train[layers-1] = tf.tanh(tf.matmul(A_train[layers-2], masks[layers-1]*W[layers-1]) + B[layers-1])
@@ -509,7 +510,7 @@ def weight_sparseness_pruning(data, model_name, new_model_name, hidden_nodes, it
 	# Add ops to save and restore all the variables.
 	saver = tf.train.Saver()
 	sess = tf.Session()
-	writer = tf.train.SummaryWriter("./logs/nn_logs", sess.graph)
+	#writer = tf.train.SummaryWriter("./logs/nn_logs", sess.graph)
 
 	# Restore trained network
 	#saver.restore(sess, model_name)	
@@ -569,11 +570,14 @@ def weight_sparseness_pruning(data, model_name, new_model_name, hidden_nodes, it
 		print('Left indexes: '+str(len(left_indexes)))
 		pos_ind = left_indexes
 		left_indexes = []
+		print(pos_ind)
+		print(row_count)
+		print(col_count)
 		# While there are still possible indexes to prune
 		while pos_ind:
 			# Sort possible indexes in order of increasing pruned connections
-			pos_ind.sort(key=lambda m, i, j:row_count[(m, i)] + col_count[(m, j)])
-			#sorted_poss_ind = sorted(pos_ind, key=lambda(m, i, j):row_count[(m, i)] + col_count[(m, j)])
+			#pos_ind.sort(key=lambda m,i,j:row_count[(m, i)] + col_count[(m, j)])
+			#sorted_poss_ind = sorted(pos_ind, key=lambda m, i, j:row_count[(m, i)] + col_count[(m, j)])
 			non_found = True
 			for i in range(len(pos_ind)):
 				selected_indexes = []

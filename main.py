@@ -14,11 +14,11 @@ import os
 import numpy as np
 
 
-dataset_name = 'titanicNumeric' 
-split_name = '35'
+dataset_name = 'titanicNumericNormalised' 
+split_name = '8'
 
 hidden_nodes= [6,8,2,2]
-model_name = 'nn'
+model_name = 'nn1'
 
 # Determine one or more splits of train and test data. Note that
 # different splits can be used to train the networks and extract the rule 
@@ -72,7 +72,7 @@ def set_cv_folds(dataset_name, k):
 # only works with the hyperbolic tangent activationfunction
 
 def prepare_network(dataset_name, split_name, model_name, hidden_nodes, 
-		init_iterations = 1000, wsp_iterations=100, wsp_accuracy_decrease=0.02, 
+		init_iterations = 50, wsp_iterations=100, wsp_accuracy_decrease=0.02, 
 		rxren_accuracy_decrease=5, function = 'tanh', softmax=True):
 	'''
 	param dataset_name: name of dataset without .csv
