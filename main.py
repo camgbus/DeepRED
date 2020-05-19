@@ -14,11 +14,11 @@ import os
 import numpy as np
 
 
-dataset_name = 'titanicNumericNormalised' 
-split_name = '8'
+dataset_name = 'adultNumeric' 
+split_name = '1'
 
-hidden_nodes= [6,8,2,2]
-model_name = 'nn1'
+hidden_nodes= [104,30,16,2,2]
+model_name = 'nn,104,30,16,2,2'
 
 # Determine one or more splits of train and test data. Note that
 # different splits can be used to train the networks and extract the rule 
@@ -72,7 +72,7 @@ def set_cv_folds(dataset_name, k):
 # only works with the hyperbolic tangent activationfunction
 
 def prepare_network(dataset_name, split_name, model_name, hidden_nodes, 
-		init_iterations = 50, wsp_iterations=100, wsp_accuracy_decrease=0.02, 
+		init_iterations = 1000, wsp_iterations=100, wsp_accuracy_decrease=0.02, 
 		rxren_accuracy_decrease=5, function = 'tanh', softmax=True):
 	'''
 	param dataset_name: name of dataset without .csv
@@ -87,7 +87,6 @@ def prepare_network(dataset_name, split_name, model_name, hidden_nodes,
 	param function: activation function, 'tanh' or 'sigmoid'
 	param softmax: softmax layer at the end?
 	'''
-	set_split(dataset_name,split_name,50)  #ADDED to set train and test indixes
 	train, test = lr.load_indexes(dataset_name, split_name)
 	data = DataSet(dataset_name, hidden_nodes)
 	data.set_split(train, [], test)
@@ -201,9 +200,9 @@ def extract_model(dataset_name, split_name, model_name, hidden_nodes,
 		print('Finished')
 
 
-prepare_network(dataset_name, split_name, model_name, hidden_nodes, 
-		init_iterations =15, wsp_iterations=2, wsp_accuracy_decrease=0.02, 
-		rxren_accuracy_decrease=5, function = 'tanh', softmax=True)
+set_split(dataset_name,split_name,50)  
+
+prepare_network(dataset_name, split_name, model_name, hidden_nodes, init_iterations =50, wsp_iterations=2, wsp_accuracy_decrease=0.02, rxren_accuracy_decrease=5, function = 'tanh', softmax=True)
 		
 extract_model(dataset_name, split_name, model_name, hidden_nodes, 1)
 

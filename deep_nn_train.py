@@ -12,7 +12,8 @@ from past.builtins import xrange
 import functools
 
 #tf.disable_v2_behavior()
-tf.compat.v1.disable_eager_execution()
+tf.disable_eager_execution()
+
 
 def init_weights(shape, i):
 	weights_name = 'W'
@@ -576,7 +577,7 @@ def weight_sparseness_pruning(data, model_name, new_model_name, hidden_nodes, it
 		# While there are still possible indexes to prune
 		while pos_ind:
 			# Sort possible indexes in order of increasing pruned connections
-			#pos_ind.sort(key=lambda m,i,j:row_count[(m, i)] + col_count[(m, j)])
+			pos_ind.sort(key=lambda m,i,j:row_count[(m, i)] + col_count[(m, j)])
 			#sorted_poss_ind = sorted(pos_ind, key=lambda m, i, j:row_count[(m, i)] + col_count[(m, j)])
 			non_found = True
 			for i in range(len(pos_ind)):

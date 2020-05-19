@@ -194,7 +194,7 @@ def buildtree(rows, split_points, scoref=entropy, class_dominance = 100, min_set
 	  #print('unique counts', current_classification) 
 	  return decisionnode(results=current_classification)
   current_score=scoref(rows)
-  # Best criteria
+  #best criteria
   best_gain=-1
   best_criteria=None
   best_sets=None		#ADDED changed due to TypeError not subscriptable in line 219: truebranch=....[0]
@@ -213,14 +213,12 @@ def buildtree(rows, split_points, scoref=entropy, class_dominance = 100, min_set
         best_gain=gain
         best_criteria=(col,value)
         best_sets=(set1,set2)
-  
-  # sub branches  
-    if (best_criteria and best_sets and len(best_sets[0])>min_set_size and len(best_sets[1])>min_set_size) or root:
-    	trueBranch=buildtree(best_sets[0], split_points, scoref, class_dominance, min_set_size, max_depth-1, root = False)
-    	falseBranch=buildtree(best_sets[1], split_points, scoref, class_dominance, min_set_size, max_depth-1, root = False)
-
-    return decisionnode(col=best_criteria[0],value=best_criteria[1],
-                        tb=trueBranch,fb=falseBranch)
+		
+  #sub tree 
+  if (best_criteria and best_sets and len(best_sets[0])>min_set_size and len(best_sets[1])>min_set_size) or root:
+  	trueBranch=buildtree(best_sets[0], split_points, scoref, class_dominance, min_set_size, max_depth-1, root = False)
+  	falseBranch=buildtree(best_sets[1], split_points, scoref, class_dominance, min_set_size, max_depth-1, root = False)
+  	return decisionnode(col=best_criteria[0],value=best_criteria[1],tb=trueBranch,fb=falseBranch)
   else:
     return decisionnode(results=current_classification)
 

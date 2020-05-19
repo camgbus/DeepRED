@@ -34,8 +34,12 @@ def build_BNN(data, output_condition, cd = 98, mss = 1, md = 10, relevant_neuron
 	BNN = {}
 	deep_layer = data.output_layer
 	target_class = [output_condition]
+	print('targetclass: ')
+	print(target_class)
 	while deep_layer > 0:
 		target_split_values = set((l, n, t) for (l, n, t, u) in target_class)
+		print('target_split_values: ')
+		print(target_split_values)
 		if not target_split_values:
 			warnings.warn('Warning: no split points, returning current dictionary at layer: '+str(deep_layer))
 		print('Target split values', target_split_values)
@@ -56,7 +60,7 @@ def build_BNN(data, output_condition, cd = 98, mss = 1, md = 10, relevant_neuron
 			else:		
 				split_points = [[0] for l in range(len(current_data[0])-1)]
 		print('Split points', [len(l) for l in split_points])
-		print(split_points)
+		#print(split_points)
 	
 		print('')
 		for i in target_split_values:
@@ -84,6 +88,8 @@ def build_BNN(data, output_condition, cd = 98, mss = 1, md = 10, relevant_neuron
 			print('Tree is formed')
 			print('Time: ', time.time() - t)
 			dnfs = dt.get_dnfs(deep_layer-1, tree)
+			print('DNF:')
+			print(dnfs)
 			if (i[0], i[1], i[2], False) in target_class:
 				print('False case')
 				pruned = None
