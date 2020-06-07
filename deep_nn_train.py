@@ -11,7 +11,7 @@ import random
 from past.builtins import xrange
 import functools
 
-#tf.disable_v2_behavior()
+tf.disable_v2_behavior()
 tf.disable_eager_execution()
 
 

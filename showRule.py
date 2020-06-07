@@ -1,13 +1,13 @@
 import pickle
 
 dataset = 'TitanicHakankBinary'
-split = '1'
+split = '5'
 
 name = dataset + '_' + split
 
 def showRule(name):
     with open('obj/bio_' + name + '.pkl','rb') as f:
-        bioList = pickle.load(f) #[[(0, 5, 0.5, True)],[(0, 2, 0.5, False)]] pickle.load(f)
+        bioList = pickle.load(f) #[[(0, 5, 0.5, True)],[(0, 2, 0.5, False)]]
         i = 0
         while i < len(bioList):
             if len(bioList[i]) == 1: printSingleRule(bioList[i], i) 
@@ -33,7 +33,7 @@ def printSingleRule(item, c):
     print('if f:', str(item[0][1]), op, str(item[0][2]) ,' => 1')
 
 def showRuleBnn(list):
-    bnnList = list #[[(0, 5, 0.5, True)],[(0, 2, 0.5, False)]] pickle.load(f)
+    bnnList = list #[[(0, 5, 0.5, True)],[(0, 2, 0.5, False)]]
     i = 0
     while i < len(bnnList):
         if len(bnnList[i]) == 1: printSingleRuleBnn(bnnList[i], i) 
@@ -45,8 +45,9 @@ def showBNN(name):
         bnnDict = pickle.load(f)
         
         for x, y in bnnDict.items():
-            print('for Layer:', x[0])
-            print(showRuleBnn(y)) 
+            print('for Neuron',x[1],'in Layer', x[0])
+            if showRuleBnn(y) == None: print('')
+            else: print(showRuleBnn(y))
             print('')
 
 def printSingleRuleBnn(item, c):
@@ -70,4 +71,5 @@ def extractRuleBnn(item, c):
 showRule(name)
 print('')
 print('BNN intermediate rules:')
+print('')
 showBNN(name)

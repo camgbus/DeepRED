@@ -14,11 +14,11 @@ import os
 import numpy as np
 
 
-dataset_name = 'adultNumeric' 
-split_name = '1'
+dataset_name = 'TitanicHakankBinary' 
+split_name = '5'
 
-hidden_nodes= [104,30,16,2,2]
-model_name = 'nn,104,30,16,2,2'
+hidden_nodes= [5,1]
+model_name = 'nn,5,1'
 
 # Determine one or more splits of train and test data. Note that
 # different splits can be used to train the networks and extract the rule 
@@ -103,7 +103,7 @@ def prepare_network(dataset_name, split_name, model_name, hidden_nodes,
 def extract_model(dataset_name, split_name, model_name, hidden_nodes, 
 	target_class_index, function = 'tanh', softmax=True, class_dominance=95, 
 	min_set_size=2, dis_config = 0, rft_pruning_config = 2, rep_pruning_config = 2, 
-	print_excel_results = True):
+	print_excel_results = False):
 	'''
 	param dataset_name: name of dataset without .csv
 	param split_name: name of the split
@@ -200,9 +200,9 @@ def extract_model(dataset_name, split_name, model_name, hidden_nodes,
 		print('Finished')
 
 
-set_split(dataset_name,split_name,50)  
+set_split(dataset_name,split_name,50)
 
-prepare_network(dataset_name, split_name, model_name, hidden_nodes, init_iterations =50, wsp_iterations=2, wsp_accuracy_decrease=0.02, rxren_accuracy_decrease=5, function = 'tanh', softmax=True)
+prepare_network(dataset_name, split_name, model_name, hidden_nodes, init_iterations =100, wsp_iterations=2, wsp_accuracy_decrease=0.02, rxren_accuracy_decrease=5, function = 'sigmoid', softmax=True)
 		
 extract_model(dataset_name, split_name, model_name, hidden_nodes, 1)
 

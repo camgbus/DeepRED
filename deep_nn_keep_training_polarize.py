@@ -1,11 +1,14 @@
 import numpy as np
 import matplotlib
 import itertools
-import tensorflow as tf
+import tensorflow.compat.v1 as tf
 import time
 from operator import concat
 import copy
 import random
+
+tf.disable_v2_behavior()
+tf.disable_eager_execution()
 
 def init_weights(shape, i):
 	weights_name = 'W'

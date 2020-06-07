@@ -1,2 +1,2 @@
-model_checkpoint_path: "nn,6,12,7,2,2.ckpt"
-all_model_checkpoint_paths: "nn,6,12,7,2,2.ckpt"
+model_checkpoint_path: "nn,5,1.ckpt"
+all_model_checkpoint_paths: "nn,5,1.ckpt"
