@@ -17,7 +17,7 @@ import warnings
 from scipy.cluster import vq
 
 
-def build_BNN(data, output_condition, cd = 98, mss = 1, md = 10, relevant_neuron_dictionary = {}, with_data = 0, discretization = 0, cluster_means = None):
+def build_BNN(data, output_condition, cd = 98, mss = 1, md = 10, relevant_neuron_dictionary = {}, with_data = 1, discretization = 0, cluster_means = None):
 	'''
 	Starting from the target condition and until the conditions with respect 
 	to the first hidden layer, it extracts a DNF that explains each condition
@@ -34,6 +34,8 @@ def build_BNN(data, output_condition, cd = 98, mss = 1, md = 10, relevant_neuron
 	BNN = {}
 	deep_layer = data.output_layer
 	target_class = [output_condition]
+	print('deep layer: ')
+	print(deep_layer)
 	print('targetclass: ')
 	print(target_class)
 	while deep_layer > 0:
@@ -41,7 +43,7 @@ def build_BNN(data, output_condition, cd = 98, mss = 1, md = 10, relevant_neuron
 		print('target_split_values: ')
 		print(target_split_values)
 		if not target_split_values:
-			warnings.warn('Warning: no split points, returning current dictionary at layer: '+str(deep_layer))
+			warnings.warn('Warning: no split points, returning current dictionary at layer: ' + str(deep_layer))
 		print('Target split values', target_split_values)
 		used_shallow_conditions = set([])
 		current_data = temp_data(data, deep_layer-1, target_class)
@@ -60,7 +62,7 @@ def build_BNN(data, output_condition, cd = 98, mss = 1, md = 10, relevant_neuron
 			else:		
 				split_points = [[0] for l in range(len(current_data[0])-1)]
 		print('Split points', [len(l) for l in split_points])
-		#print(split_points)
+		print(split_points)
 	
 		print('')
 		for i in target_split_values:

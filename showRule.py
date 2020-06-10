@@ -1,7 +1,7 @@
 import pickle
 
-dataset = 'TitanicHakankBinary'
-split = '5'
+dataset = 'TitanicHakank01'
+split = '1'
 
 name = dataset + '_' + split
 

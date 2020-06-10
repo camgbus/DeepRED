@@ -14,11 +14,11 @@ import os
 import numpy as np
 
 
-dataset_name = 'TitanicHakankBinary' 
-split_name = '5'
+dataset_name = 'TitanicHakank01' 
+split_name = '1'
 
-hidden_nodes= [5,1]
-model_name = 'nn,5,1'
+hidden_nodes= [2]
+model_name = 'nn,2hidden'
 
 # Determine one or more splits of train and test data. Note that
 # different splits can be used to train the networks and extract the rule 
@@ -91,8 +91,11 @@ def prepare_network(dataset_name, split_name, model_name, hidden_nodes,
 	data = DataSet(dataset_name, hidden_nodes)
 	data.set_split(train, [], test)
 	dnnt.train_network(data, model_name, hidden_nodes, iterations=init_iterations, function=function, softmax=softmax)
+	
 	#dnnt.execute_network(data, model_name, hidden_nodes, function=function, softmax=softmax)
 	
+	#ktp.retrain_network(data, model_name, model_name+'pol',hidden_nodes,init_iterations/10)
+
 	#dnnt.weight_sparseness_pruning(data, model_name, model_name, hidden_nodes, iterations=wsp_iterations, function=function, softmax=softmax, accuracy_decrease=wsp_accuracy_decrease)
 
 	#dnnt.rexren_input_prune(data, model_name, model_name, hidden_nodes, function=function, softmax=softmax, max_accuracy_decrease = rxren_accuracy_decrease)
@@ -129,30 +132,43 @@ def extract_model(dataset_name, split_name, model_name, hidden_nodes,
 	# Standard output condition. Note that this isn't treated as the output 
 	# neuron of that class exceeding threshold 0.5 but as that observation being
 	# predicted to be of that class
+	print('set output_condition')
 	output_condition = (len(hidden_nodes)+1, target_class_index, 0.5, True)
+	print('set output_condition finished')
 
 	# Build dataset
+	print('build dataset')
 	data = DataSet(dataset_name, hidden_nodes)
-	
+	print('build dataset finished')
+
 	# Set split
+	print('set splits')
 	train, test = lr.load_indexes(dataset_name, split_name)
 	data.set_split(train, [], test)	
-	
+	print('set splits finished')
+
 	# Get activation values and parameters
+	print('execute network')
 	act_train, _, act_test, weights, _, _ = dnnt.execute_network(data, model_name, hidden_nodes, function=function, softmax=softmax)
 	data.set_act_values(act_train, [], act_test)
-	
+	print('execute network finished')
+
 	# Determine what neurons are relevant
+	print('relevant neurons')
 	rel_neuron_dict = dti.relevant_neurons(weights, hidden_nodes, data.input_lenght, output_len=data.output_neurons)
-	
+	print('relevant neurons finished')
+
 	# Initialize condition example dictionary
+	print('initialize dic')
 	data.initialize_dictionary(output_condition)
-	
+	print('initialize dic finished')
+
 	# Determine fixes min size
 	min_size = math.ceil(float(len(data.dict_indexes))*min_set_size/100)
 
 	# Extract a dictionary which links conditions of layer l with a dnf 
 	# using conditions of layer l-1 (and saves it to the 'obj' folder)
+	print('BNN extraction')
 	if os.path.exists('obj/BNN_' + dataset_name + '_' + split_name + '.pkl'):
 		BNN, data.example_cond_dict, data.dict_indexes = lr.load_BNN_ecd_indexes(dataset_name + '_' + split_name)
 		print('\nLoaded BNN, example-condition-dict, indexes')
@@ -163,6 +179,7 @@ def extract_model(dataset_name, split_name, model_name, hidden_nodes,
 		print('\nBuilt BNN')
 		print('Time: ', time.time() - t)
 		print(BNN)
+	print('BNN extraction finished')
 
 	# Extract an expression of an output condition w.r.t the inputs
 	if os.path.exists('obj/bio_' + dataset_name + '_' + split_name + '.pkl'):
@@ -200,9 +217,9 @@ def extract_model(dataset_name, split_name, model_name, hidden_nodes,
 		print('Finished')
 
 
-set_split(dataset_name,split_name,50)
+#set_split(dataset_name,split_name,50)
 
-prepare_network(dataset_name, split_name, model_name, hidden_nodes, init_iterations =100, wsp_iterations=2, wsp_accuracy_decrease=0.02, rxren_accuracy_decrease=5, function = 'sigmoid', softmax=True)
+#prepare_network(dataset_name, split_name, model_name, hidden_nodes, init_iterations =50, wsp_iterations=2, wsp_accuracy_decrease=0.02, rxren_accuracy_decrease=5, function = 'sigmoid', softmax=True)
 		
 extract_model(dataset_name, split_name, model_name, hidden_nodes, 1)
 

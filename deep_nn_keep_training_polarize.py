@@ -98,11 +98,11 @@ def retrain_network(data, model_name, new_model_name, hidden_nodes, iterations, 
 	RHO = tf.constant(0.99)
 	
 	def logfunc(x, x2):
-		return tf.mul( x, tf.log(tf.div(x,x2)))
+		return tf.multiply( x, tf.log(tf.div(x,x2)))
 	
 	def KL_Div(rho, rho_hat):
-		invrho = tf.sub(tf.constant(1.), rho)
-		invrhohat = tf.sub(tf.constant(1.), rho_hat)
+		invrho = tf.subtract(tf.constant(1.), rho)
+		invrhohat = tf.subtract(tf.constant(1.), rho_hat)
 		logrho = tf.add(logfunc(rho,rho_hat), logfunc(invrho, invrhohat))
 		return logrho
 	
@@ -153,7 +153,7 @@ def retrain_network(data, model_name, new_model_name, hidden_nodes, iterations, 
 	A_train[0] = tf.tanh(tf.matmul(X_train, masks[0]*W[0]) + B[0])
 	A_test[0] = tf.tanh(tf.matmul(X_test, masks[0]*W[0]) + B[0])
 
-	rho_hat[0] = tf.div(tf.reduce_sum(tf.abs(A_train[0]),0),tf.constant(float(batch_size)))
+	rho_hat[0] = tf.divide(tf.reduce_sum(tf.abs(A_train[0]),0),tf.constant(float(batch_size)))
 	divergance[0] = tf.reduce_sum(KL_Div(RHO, rho_hat[0]))
 
 	for i in range(1,layers-1):

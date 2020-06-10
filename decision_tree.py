@@ -175,7 +175,7 @@ def buildtree(rows, split_points, scoref=entropy, class_dominance = 100, min_set
   the tree stops growing
   param param max_depth: is a set number outlying the maximal depth of the tree
   '''
-  print('builtree')
+  print('buildtree')
   if len(rows)==0: return decisionnode()
   current_classification = uniquecounts(rows)
   #print('current_classification', current_classification)
@@ -197,7 +197,7 @@ def buildtree(rows, split_points, scoref=entropy, class_dominance = 100, min_set
   #best criteria
   best_gain=-1
   best_criteria=None
-  best_sets=None		#ADDED changed due to TypeError not subscriptable in line 219: truebranch=....[0]
+  best_sets=None
   column_count=len(rows[0])-1
   for col in range(0,column_count):
     column_values={}
