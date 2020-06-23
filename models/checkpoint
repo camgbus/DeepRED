@@ -1,2 +1,2 @@
-model_checkpoint_path: "nn,2hidden.ckpt"
-all_model_checkpoint_paths: "nn,2hidden.ckpt"
+model_checkpoint_path: "nn10,16,9,2.ckpt"
+all_model_checkpoint_paths: "nn10,16,9,2.ckpt"

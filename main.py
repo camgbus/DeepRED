@@ -14,11 +14,11 @@ import os
 import numpy as np
 
 
-dataset_name = 'TitanicHakank01' 
-split_name = '1'
+dataset_name = 'weatherBinary' 
+split_name = '10'
 
-hidden_nodes= [2]
-model_name = 'nn,2hidden'
+hidden_nodes= [16,9,2]
+model_name = 'nn10,16,9,2'
 
 # Determine one or more splits of train and test data. Note that
 # different splits can be used to train the networks and extract the rule 
@@ -73,7 +73,7 @@ def set_cv_folds(dataset_name, k):
 
 def prepare_network(dataset_name, split_name, model_name, hidden_nodes, 
 		init_iterations = 1000, wsp_iterations=100, wsp_accuracy_decrease=0.02, 
-		rxren_accuracy_decrease=5, function = 'tanh', softmax=True):
+		rxren_accuracy_decrease=5, function='tanh', softmax=True):
 	'''
 	param dataset_name: name of dataset without .csv
 	param split_name: name of the split
@@ -89,23 +89,21 @@ def prepare_network(dataset_name, split_name, model_name, hidden_nodes,
 	'''
 	train, test = lr.load_indexes(dataset_name, split_name)
 	data = DataSet(dataset_name, hidden_nodes)
-	data.set_split(train, [], test)
+	data.set_split(train, test, test) #data.set_split(train, [], test)
 	dnnt.train_network(data, model_name, hidden_nodes, iterations=init_iterations, function=function, softmax=softmax)
 	
-	#dnnt.execute_network(data, model_name, hidden_nodes, function=function, softmax=softmax)
-	
-	#ktp.retrain_network(data, model_name, model_name+'pol',hidden_nodes,init_iterations/10)
+	#ktp.retrain_network(data, model_name, model_name+'pol', hidden_nodes, int(init_iterations/10))
 
 	#dnnt.weight_sparseness_pruning(data, model_name, model_name, hidden_nodes, iterations=wsp_iterations, function=function, softmax=softmax, accuracy_decrease=wsp_accuracy_decrease)
 
-	#dnnt.rexren_input_prune(data, model_name, model_name, hidden_nodes, function=function, softmax=softmax, max_accuracy_decrease = rxren_accuracy_decrease)
+	#dnnt.rexren_input_prune(data, model_name, model_name, hidden_nodes, function=function, softmax=softmax, max_accuracy_decrease=rxren_accuracy_decrease)
 
 
 # Extract the rule set model
 
 def extract_model(dataset_name, split_name, model_name, hidden_nodes, 
 	target_class_index, function = 'tanh', softmax=True, class_dominance=95, 
-	min_set_size=2, dis_config = 0, rft_pruning_config = 2, rep_pruning_config = 2, 
+	min_set_size=2, dis_config = 0, rft_pruning_config = 1, rep_pruning_config = 1, 
 	print_excel_results = False):
 	'''
 	param dataset_name: name of dataset without .csv
@@ -154,9 +152,9 @@ def extract_model(dataset_name, split_name, model_name, hidden_nodes,
 	print('execute network finished')
 
 	# Determine what neurons are relevant
-	print('relevant neurons')
+	print('relevant neurons dict')
 	rel_neuron_dict = dti.relevant_neurons(weights, hidden_nodes, data.input_lenght, output_len=data.output_neurons)
-	print('relevant neurons finished')
+	print('relevant neurons dict finished')
 
 	# Initialize condition example dictionary
 	print('initialize dic')
@@ -201,7 +199,7 @@ def extract_model(dataset_name, split_name, model_name, hidden_nodes,
 	
 
 	print('Fidelity:', ef.accuracy_of_dnf(data, output_condition, bio, True, False, False, True))
-	print('Accuracy:', ef.class_accuracy(data, bio, target_class_index, True, False, False, True))
+	print('Accuracy:', ef.class_accuracy(data, bio, target_class_index, False, True, False, True))
 
 	if print_excel_results:
 		print('\nPrinting results')
@@ -210,16 +208,16 @@ def extract_model(dataset_name, split_name, model_name, hidden_nodes,
 		print('\nPrinted chars of Network')
 		printer.print_activation_values(directory, data)
 		print('Printed activation values')
-		printer.print_evaluation(directory, data, output_condition, bio=bio, BNN = BNN)
+		printer.print_evaluation(directory, data, output_condition, bio= bio, BNN= BNN)
 		print('Printed evaluation')
-		printer.print_symbol_dict(data, output_condition, directory, BNN = BNN, bio=bio)
+		printer.print_symbol_dict(data, output_condition, directory, BNN= BNN, bio =bio)
 		print('Printed symbol dictionary')
 		print('Finished')
 
 
-#set_split(dataset_name,split_name,50)
+set_split(dataset_name,split_name,50)
 
-#prepare_network(dataset_name, split_name, model_name, hidden_nodes, init_iterations =50, wsp_iterations=2, wsp_accuracy_decrease=0.02, rxren_accuracy_decrease=5, function = 'sigmoid', softmax=True)
-		
+prepare_network(dataset_name, split_name, model_name, hidden_nodes, init_iterations =3500, wsp_iterations=2, wsp_accuracy_decrease=0.02, rxren_accuracy_decrease=5, function = 'tanh', softmax=True)
+
 extract_model(dataset_name, split_name, model_name, hidden_nodes, 1)
 

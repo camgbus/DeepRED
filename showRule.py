@@ -1,6 +1,6 @@
 import pickle
 
-dataset = 'TitanicHakank01'
+dataset = 'weatherBinary'
 split = '1'
 
 name = dataset + '_' + split
@@ -20,7 +20,7 @@ def extractRule(item, c):
     while i < len(item):
         if (item[i][3] == True): op = '>'
         else: op = '<='
-        string = string + 'f:' + str(item[i][1]) + ' ' + op + ' ' + str(item[i][2])
+        string = string + 'feature:' + str(item[i][1]) + ' ' + op + ' ' + str(item[i][2])
         if (i != len(item) - 1): string = string + ' and '
         i += 1
     string = string + ' => 1'
@@ -30,7 +30,7 @@ def printSingleRule(item, c):
     if (item[0][3] == True): op = '>'
     else: op = '<='
     print('R', c,':')
-    print('if f:', str(item[0][1]), op, str(item[0][2]) ,' => 1')
+    print('if feature:', str(item[0][1]), op, str(item[0][2]) ,' => 1')
 
 def showRuleBnn(list):
     bnnList = list #[[(0, 5, 0.5, True)],[(0, 2, 0.5, False)]]
@@ -54,7 +54,7 @@ def printSingleRuleBnn(item, c):
     if (item[0][3] == True): op = '>'
     else: op = '<='
     print('R', c,':')
-    print('if f:', str(item[0][1]), op, str(item[0][2]))
+    print('if feature:', str(item[0][1]), op, str(item[0][2]))
 
 def extractRuleBnn(item, c):
     i = 0

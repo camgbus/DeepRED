@@ -8,11 +8,11 @@ import time
 from operator import concat
 import copy
 import random
-from past.builtins import xrange
-import functools
 
-tf.disable_v2_behavior()
-tf.disable_eager_execution()
+#import functools
+
+#tf.disable_v2_behavior()
+#tf.disable_eager_execution()
 
 
 def init_weights(shape, i):
@@ -195,7 +195,7 @@ def train_network(data, model_name, hidden_nodes, iterations, function = 'tanh',
 	for i in range(iterations):
 		x_train, y_train = x, y
 		if batch_size > 0:
-			batch_indexes = random.sample(xrange(len(x_train)), batch_size)
+			batch_indexes = random.sample(range(len(x_train)), batch_size)
 			x_train = [e for (j, e) in enumerate(x) if j in batch_indexes]
 			y_train = [e for (j, e) in enumerate(y) if j in batch_indexes]
 		sess.run(train_step, feed_dict={X_train: x_train, Y_train: y_train, rate: 1}) #ADDED rate for TF v2
@@ -605,7 +605,7 @@ def weight_sparseness_pruning(data, model_name, new_model_name, hidden_nodes, it
 					for i in range(iterations):
 						x_train, y_train = x, y
 						if batch_size > 0:
-							batch_indexes = random.sample(xrange(len(x_train)), batch_size)
+							batch_indexes = random.sample(range(len(x_train)), batch_size)
 							x_train = [e for (j, e) in enumerate(x) if j in batch_indexes]
 							y_train = [e for (j, e) in enumerate(y) if j in batch_indexes]
 						placeholder_dict.update({X_train: x_train, Y_train: y_train})						

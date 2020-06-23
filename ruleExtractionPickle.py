@@ -1,6 +1,6 @@
 import pickle
 
-dataset = 'TitanicHakank01'
+dataset = 'weatherBinary'
 split = '1'
 
 name = dataset + '_' + split
@@ -51,8 +51,8 @@ print(showBNN(name))
 print('Ex:')
 print(showEx(name))
 print('Index:')
-#print(showIndex(name))
+print(showIndex(name))
 print('IndexTrain:')
-#print(showIndexTrain(name))
+print(showIndexTrain(name))
 print('IndexTest:')
-#print(showIndexTest(name))
+print(showIndexTest(name))
