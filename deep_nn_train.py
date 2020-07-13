@@ -9,7 +9,7 @@ from operator import concat
 import copy
 import random
 
-#import functools
+import functools
 
 #tf.disable_v2_behavior()
 #tf.disable_eager_execution()

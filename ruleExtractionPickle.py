@@ -1,6 +1,6 @@
 import pickle
 
-dataset = 'weatherBinary'
+dataset = 'C'
 split = '1'
 
 name = dataset + '_' + split
@@ -29,30 +29,25 @@ def showIndexTest(name):
     with open('indexes/' + name + '_test.pkl','rb') as f:
         return pickle.load(f)
 
-print('Datatype Bio: ' + str(type(showBio(name))))
-print('Datatype BNN: ' + str(type(showBNN(name))))
-print('Datatype Ex: ' + str(type(showEx(name))))
-print('Datatype Index: ' + str(type(showIndex(name))))
-print('Datatype IndexTrain: ' + str(type(showIndexTrain(name))))
-print('Datatype IndexTest: ' + str(type(showIndexTest(name))))
+#print('Datatype IndexTrain: ' + str(type(showIndexTrain(name))))
+#print('Datatype IndexTest: ' + str(type(showIndexTest(name))))
 print('')
 
-#print(len(showBio(name)))
-print(len(showBNN(name)))
-print(len(showEx(name)))
-print(len(showIndex(name)))
+def showingRaw(showAllBio=False, showAllBNN=False, showAllEx=False, showAllInd=False, showAllTrainInd=True, showAllTestInd=True):
+    if showAllBio: print('Datatype Bio: ' + str(type(showBio(name))));print(len(showBio(name)));print('Bio:');print(showBio(name))
+    if showAllBNN: print('Datatype BNN: ' + str(type(showBNN(name))));print(len(showBNN(name)));print('BNN:');print(showBNN(name))
+    if showAllEx: print('Datatype Ex: ' + str(type(showEx(name))));print(len(showEx(name)));print('Ex:');print(showEx(name))
+    if showAllInd: print('Datatype Index: ' + str(type(showIndex(name))));print(len(showIndex(name)));print('Index:');print(showIndex(name))
+    if showAllTrainInd: print('Datatype IndexTrain: ' + str(type(showIndexTrain(name))));print(len(showIndexTrain(name)));print('IndexTrain:');print(showIndexTrain(name))
+    if showAllTestInd: print('Datatype IndexTest: ' + str(type(showIndexTest(name))));print(len(showIndexTest(name)));print('IndexTest:');print(showIndexTest(name))
+
+"""
 print(len(showIndexTrain(name)))
 print(len(showIndexTest(name)))
-print('')
-print('Bio:')
-print(showBio(name))
-print('BNN:') 
-print(showBNN(name))
-print('Ex:')
-print(showEx(name))
-print('Index:')
-print(showIndex(name))
+
 print('IndexTrain:')
 print(showIndexTrain(name))
 print('IndexTest:')
 print(showIndexTest(name))
+"""
+showingRaw()

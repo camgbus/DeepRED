@@ -14,11 +14,11 @@ import os
 import numpy as np
 
 
-dataset_name = 'weatherBinary' 
-split_name = '10'
+dataset_name = 'C_P_OS'
+split_name = 'cv3-0'
 
-hidden_nodes= [16,9,2]
-model_name = 'nn10,16,9,2'
+hidden_nodes= [0]
+model_name = 'nn,0hidden,tanh,P_OS,cv3-0'
 
 # Determine one or more splits of train and test data. Note that
 # different splits can be used to train the networks and extract the rule 
@@ -89,7 +89,7 @@ def prepare_network(dataset_name, split_name, model_name, hidden_nodes,
 	'''
 	train, test = lr.load_indexes(dataset_name, split_name)
 	data = DataSet(dataset_name, hidden_nodes)
-	data.set_split(train, test, test) #data.set_split(train, [], test)
+	data.set_split(train, [], test) #data.set_split(train, test, test)
 	dnnt.train_network(data, model_name, hidden_nodes, iterations=init_iterations, function=function, softmax=softmax)
 	
 	#ktp.retrain_network(data, model_name, model_name+'pol', hidden_nodes, int(init_iterations/10))
@@ -102,9 +102,9 @@ def prepare_network(dataset_name, split_name, model_name, hidden_nodes,
 # Extract the rule set model
 
 def extract_model(dataset_name, split_name, model_name, hidden_nodes, 
-	target_class_index, function = 'tanh', softmax=True, class_dominance=95, 
-	min_set_size=2, dis_config = 0, rft_pruning_config = 1, rep_pruning_config = 1, 
-	print_excel_results = False):
+	target_class_index, function='tanh', softmax=True, class_dominance=95, 
+	min_set_size=2, dis_config=0, rft_pruning_config=1, rep_pruning_config=1, 
+	print_excel_results=False):
 	'''
 	param dataset_name: name of dataset without .csv
 	param split_name: name of the split
@@ -215,9 +215,11 @@ def extract_model(dataset_name, split_name, model_name, hidden_nodes,
 		print('Finished')
 
 
-set_split(dataset_name,split_name,50)
+#set_split(dataset_name,split_name,50)
 
-prepare_network(dataset_name, split_name, model_name, hidden_nodes, init_iterations =3500, wsp_iterations=2, wsp_accuracy_decrease=0.02, rxren_accuracy_decrease=5, function = 'tanh', softmax=True)
+#set_cv_folds(dataset_name, 3)
 
-extract_model(dataset_name, split_name, model_name, hidden_nodes, 1)
+prepare_network(dataset_name, split_name, model_name, hidden_nodes, init_iterations=1000, wsp_iterations=2, wsp_accuracy_decrease=0.02, rxren_accuracy_decrease=5, function='tanh', softmax=True)
+
+#extract_model(dataset_name, split_name, model_name, hidden_nodes, 1)
 
