@@ -15,10 +15,10 @@ import numpy as np
 
 
 dataset_name = 'C_P_OS'
-split_name = 'cv3-0'
+split_name = 'cv2-1'
 
-hidden_nodes= [0]
-model_name = 'nn,0hidden,tanh,P_OS,cv3-0'
+hidden_nodes= [22,12,2]
+model_name = 'nn,22,12,2hidden,tanh,P_OS,cv2-0'
 
 # Determine one or more splits of train and test data. Note that
 # different splits can be used to train the networks and extract the rule 
@@ -102,8 +102,8 @@ def prepare_network(dataset_name, split_name, model_name, hidden_nodes,
 # Extract the rule set model
 
 def extract_model(dataset_name, split_name, model_name, hidden_nodes, 
-	target_class_index, function='tanh', softmax=True, class_dominance=95, 
-	min_set_size=2, dis_config=0, rft_pruning_config=1, rep_pruning_config=1, 
+	target_class_index, function='tanh', softmax=True, class_dominance=98, 
+	min_set_size=1, dis_config=0, rft_pruning_config=1, rep_pruning_config=1, 
 	print_excel_results=False):
 	'''
 	param dataset_name: name of dataset without .csv
@@ -214,12 +214,16 @@ def extract_model(dataset_name, split_name, model_name, hidden_nodes,
 		print('Printed symbol dictionary')
 		print('Finished')
 
+trainindx= list(range(64,1999))
+testindx= list(range(64))
+#set_split_manually(dataset_name, split_name, train_indexes=trainindx, test_indexes=testindx)
 
 #set_split(dataset_name,split_name,50)
 
-#set_cv_folds(dataset_name, 3)
+#set_cv_folds(dataset_name, 2)
 
-prepare_network(dataset_name, split_name, model_name, hidden_nodes, init_iterations=1000, wsp_iterations=2, wsp_accuracy_decrease=0.02, rxren_accuracy_decrease=5, function='tanh', softmax=True)
+#prepare_network(dataset_name, split_name, model_name, hidden_nodes,
+#	init_iterations=1000, wsp_iterations=100, wsp_accuracy_decrease=0.02, rxren_accuracy_decrease=5, function='tanh', softmax=True)
 
-#extract_model(dataset_name, split_name, model_name, hidden_nodes, 1)
+extract_model(dataset_name, split_name, model_name, hidden_nodes, 1)
 

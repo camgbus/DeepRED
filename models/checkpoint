@@ -1,2 +1,2 @@
-model_checkpoint_path: "nn,0hidden,tanh,P_OS,cv3-0.ckpt"
-all_model_checkpoint_paths: "nn,0hidden,tanh,P_OS,cv3-0.ckpt"
+model_checkpoint_path: "nn,22,12,2hidden,tanh,P_OS,cv2-0.ckpt"
+all_model_checkpoint_paths: "nn,22,12,2hidden,tanh,P_OS,cv2-0.ckpt"

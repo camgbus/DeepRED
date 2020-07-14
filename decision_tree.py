@@ -158,7 +158,7 @@ def variance(rows):
 	variance=sum([(d-mean)**2 for d in data])/len(data)
 	return variance
 
-def buildtree(rows, split_points, scoref=entropy, class_dominance = 100, min_set_size = 0, max_depth = 10, root = False):
+def buildtree(rows, split_points, scoref=entropy, class_dominance = 98, min_set_size = 1, max_depth = 30, root = False):
   '''
   Builds a decision tree in a recursive manner
 
@@ -176,22 +176,20 @@ def buildtree(rows, split_points, scoref=entropy, class_dominance = 100, min_set
   param param max_depth: is a set number outlying the maximal depth of the tree
   '''
   print('buildtree')
+  #print('rows',rows)
   if len(rows)==0: return decisionnode()
   current_classification = uniquecounts(rows)
-  #print('current_classification', current_classification)
+  print('current_classification', current_classification)
   # If more than this number of examples belongs to the predicted class,
   # the tree is not further split
   for_class_dominance = (float(len(rows))*float(class_dominance))/100.0
   examples_mayority_class = max(current_classification.values())
   # If it is not the first split and one of the criteria has been reached
   if not root and (len(rows) <= min_set_size or max_depth == 0 or examples_mayority_class >= for_class_dominance):
-	  #if len(rows) <= min_set_size:
-		#  print('Return for lack of examples')
-	  #if max_depth == 0:
-		#  print('Return for reaching max depth')
-	  #if examples_mayority_class >= for_class_dominance:
-		#  print('Return for class dominance')
-	  #print('unique counts', current_classification) 
+	  if len(rows) <= min_set_size: print('Return for lack of examples')
+	  if max_depth == 0: print('Return for reaching max depth')
+	  if examples_mayority_class >= for_class_dominance: print('Return for class dominance')
+	  print('unique counts', current_classification) 
 	  return decisionnode(results=current_classification)
   current_score=scoref(rows)
   #best criteria

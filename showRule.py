@@ -1,7 +1,7 @@
 import pickle
 
-dataset = 'weatherBinary'
-split = '1'
+dataset = 'C_P_OS'
+split = 'cv3-0'
 
 name = dataset + '_' + split
 
@@ -30,7 +30,7 @@ def printSingleRule(item, c):
     if (item[0][3] == True): op = '>'
     else: op = '<='
     print('R', c,':')
-    print('if feature:', str(item[0][1]), op, str(item[0][2]) ,' => 1')
+    print('if Neuron:', str(item[0][1]), op, str(item[0][2]) ,' => 1')
 
 def showRuleBnn(list):
     bnnList = list #[[(0, 5, 0.5, True)],[(0, 2, 0.5, False)]]
@@ -43,7 +43,7 @@ def showRuleBnn(list):
 def showBNN(name):
     with open('obj/BNN_' + name + '.pkl','rb') as f:
         bnnDict = pickle.load(f)
-        
+        #bnnDict = {(4, 1, 0.5, True): [[(3, 0, -0.27577212452888, False)]], (3, 0, -0.27577212452888, False): [[(2, 2, -0.27173203229904, False)]], (2, 2, -0.27173203229904, False): False}
         for x, y in bnnDict.items():
             print('for Neuron',x[1],'in Layer', x[0])
             if showRuleBnn(y) == None: print('')
@@ -54,7 +54,7 @@ def printSingleRuleBnn(item, c):
     if (item[0][3] == True): op = '>'
     else: op = '<='
     print('R', c,':')
-    print('if feature:', str(item[0][1]), op, str(item[0][2]))
+    print('if Neuron:', str(item[0][1]), op, str(item[0][2]))
 
 def extractRuleBnn(item, c):
     i = 0
@@ -68,7 +68,7 @@ def extractRuleBnn(item, c):
     print(string)
 
 
-showRule(name)
+#showRule(name)
 print('')
 print('BNN intermediate rules:')
 print('')

@@ -17,7 +17,7 @@ import warnings
 from scipy.cluster import vq
 
 
-def build_BNN(data, output_condition, cd = 98, mss = 1, md = 10, relevant_neuron_dictionary = {}, with_data = 1, discretization = 0, cluster_means = None):
+def build_BNN(data, output_condition, cd = 98, mss = 1, md = 30, relevant_neuron_dictionary = {}, with_data = 1, discretization = 0, cluster_means = None):
 	'''
 	Starting from the target condition and until the conditions with respect 
 	to the first hidden layer, it extracts a DNF that explains each condition
@@ -73,7 +73,7 @@ def build_BNN(data, output_condition, cd = 98, mss = 1, md = 10, relevant_neuron
 			tree=None
 			if relevant_neuron_dictionary and discretization==0:
 				pruned_split_points = [_sp(j, i, split_points, relevant_neuron_dictionary) for j in range(len(split_points))]
-				print(pruned_split_points)
+				print('Pruned split points',pruned_split_points)
 				tree = dt.buildtree(i_data, pruned_split_points, class_dominance = cd, min_set_size = mss, max_depth = md, root = True)
 			else:
 				tree = dt.buildtree(i_data, split_points, class_dominance = cd, min_set_size = mss, max_depth = md, root = True)

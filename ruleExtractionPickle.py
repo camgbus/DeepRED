@@ -1,7 +1,7 @@
 import pickle
 
-dataset = 'C'
-split = '1'
+dataset = 'C_P_OS'
+split = 'cv3-2'
 
 name = dataset + '_' + split
 
@@ -33,7 +33,7 @@ def showIndexTest(name):
 #print('Datatype IndexTest: ' + str(type(showIndexTest(name))))
 print('')
 
-def showingRaw(showAllBio=False, showAllBNN=False, showAllEx=False, showAllInd=False, showAllTrainInd=True, showAllTestInd=True):
+def showingRaw(showAllBio=False, showAllBNN=True, showAllEx=False, showAllInd=False, showAllTrainInd=False, showAllTestInd=False):
     if showAllBio: print('Datatype Bio: ' + str(type(showBio(name))));print(len(showBio(name)));print('Bio:');print(showBio(name))
     if showAllBNN: print('Datatype BNN: ' + str(type(showBNN(name))));print(len(showBNN(name)));print('BNN:');print(showBNN(name))
     if showAllEx: print('Datatype Ex: ' + str(type(showEx(name))));print(len(showEx(name)));print('Ex:');print(showEx(name))
