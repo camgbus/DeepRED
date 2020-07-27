@@ -14,11 +14,11 @@ import os
 import numpy as np
 
 
-dataset_name = 'C_P_OS'
-split_name = 'cv2-1'
+dataset_name = 'breast-cancer-wisconsinBinary'
+split_name = '1'
 
-hidden_nodes= [22,12,2]
-model_name = 'nn,22,12,2hidden,tanh,P_OS,cv2-0'
+hidden_nodes= [30,16,2]
+model_name = 'nn,30,16,2hidden,tanh,breast-cancer-wisconsinBinary,1'
 
 # Determine one or more splits of train and test data. Note that
 # different splits can be used to train the networks and extract the rule 
@@ -214,13 +214,13 @@ def extract_model(dataset_name, split_name, model_name, hidden_nodes,
 		print('Printed symbol dictionary')
 		print('Finished')
 
-trainindx= list(range(64,1999))
-testindx= list(range(64))
+#trainindx= list(range(64,1999))
+#testindx= list(range(64))
 #set_split_manually(dataset_name, split_name, train_indexes=trainindx, test_indexes=testindx)
 
-#set_split(dataset_name,split_name,50)
+#set_split(dataset_name,split_name,70)
 
-#set_cv_folds(dataset_name, 2)
+#set_cv_folds(dataset_name, 3)
 
 #prepare_network(dataset_name, split_name, model_name, hidden_nodes,
 #	init_iterations=1000, wsp_iterations=100, wsp_accuracy_decrease=0.02, rxren_accuracy_decrease=5, function='tanh', softmax=True)

@@ -21,8 +21,7 @@ def loadTestEx(name,indlist):
     for ind in indlist:
         forcount += 1
         pos_count += data_np[ind,-1]
-        if forcount < 800:
-            print(ind,forcount, data_np[ind,-1])
+        
     print(len(data_np))
     print(pos_count)
 

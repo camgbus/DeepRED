@@ -1,2 +1,2 @@
-model_checkpoint_path: "nn,22,12,2hidden,tanh,P_OS,cv2-0.ckpt"
-all_model_checkpoint_paths: "nn,22,12,2hidden,tanh,P_OS,cv2-0.ckpt"
+model_checkpoint_path: "nn,30,16,2hidden,tanh,breast-cancer-wisconsinBinary,1.ckpt"
+all_model_checkpoint_paths: "nn,30,16,2hidden,tanh,breast-cancer-wisconsinBinary,1.ckpt"
